@@ -1,6 +1,6 @@
 # Death Companion
 
-When will die? Find out and greet death with open arms[^1].
+When will you die? Find out and greet death with open arms[^1].
 
 Remember not to waste the precious time you have left! ☠ ⚰️ 🪦
 
