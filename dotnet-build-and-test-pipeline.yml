@@ -1,0 +1,35 @@
+name: 
+  dotnet-build-and-test-pipeline
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.x.x
+        run: echo "Done setting up .NET!"
+
+      - name: Install dependencies
+        run : dotnet restore
+        run: echo "Done installing dependencies!"
+
+      - name: Build solution
+        run: dotnet build --no-restore
+        run: echo "Done building solution!"
+
+      - name: Test solution
+        run: dotnet test --logger "console;verbosity=detailed"
