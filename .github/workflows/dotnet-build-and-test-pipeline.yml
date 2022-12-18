@@ -21,18 +21,22 @@ jobs:
         with:
           dotnet-version: 7.x.x
 
-      - name: Install required workloads
-        working-directory: ./MathLibrary
+      - name: Restore workloads
+        working-directory: ./Application
         run: dotnet workload restore
+        
+      - name: Install extra workloads
+        working-directory: ./Application
+        run: dotnet workload install maccatalyst ios maui-tizen wasm-tools
 
       - name: Restore solution
-        working-directory: ./MathLibrary
+        working-directory: ./Application
         run: dotnet restore
 
       - name: Build solution
-        working-directory: ./MathLibrary
+        working-directory: ./Application
         run: dotnet build --no-restore
 
       - name: Test solution
-        working-directory: ./MathLibrary
+        working-directory: ./Application
         run: dotnet test --logger "console;verbosity=detailed" --nologo --no-restore --no-build
