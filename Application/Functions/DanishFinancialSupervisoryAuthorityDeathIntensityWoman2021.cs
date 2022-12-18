@@ -73,9 +73,9 @@ public sealed class DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021
     /// <summary>
     ///     Initializes a new instance of <see cref="DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021" />.
     /// </summary>
-    /// <param name="birthDateYear">The year of birth of the woman.</param>
-    public DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021(int birthDateYear)
-        : base(Intensity, Improvement, birthDateYear, 2021)
+    /// <param name="birthDate">The birth date of the woman.</param>
+    public DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021(DateTime birthDate)
+        : base(Intensity, Improvement, birthDate, 2021)
     {
     }
 }

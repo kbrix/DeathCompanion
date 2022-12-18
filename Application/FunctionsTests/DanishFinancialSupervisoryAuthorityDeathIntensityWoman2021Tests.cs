@@ -10,8 +10,8 @@ public class DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021Tests
     {
         // Arrange
         var age = 50;
-        var birthDate = new DateOnly(1991, 01, 01);
-        var intensity = new DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021(birthDate.Year);
+        var birthDate = new DateTime(1991, 01, 01);
+        var intensity = new DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021(birthDate);
         // Act
         var value = intensity.Evaluate(age);
         // Assert
@@ -22,8 +22,8 @@ public class DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021Tests
     public void DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021_Ages_ReturnsIntensities()
     {
         // Arrange
-        var birthDate = new DateOnly(1991, 01, 01);
-        var intensity = new DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021(birthDate.Year);
+        var birthDate = new DateTime(1991, 01, 01);
+        var intensity = new DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021(birthDate);
         var expectedValues = new[]
         {
             0.00014113164645456100, 0.00015589857814782596, 0.00017143175444459208, 0.00018101386762469488,
@@ -61,8 +61,8 @@ public class DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021Tests
     {
         // Arrange
         var x = 20;
-        var birthDate = new DateOnly(1991, 01, 01);
-        var intensity = new DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021(birthDate.Year);
+        var birthDate = new DateTime(1991, 01, 01);
+        var intensity = new DanishFinancialSupervisoryAuthorityDeathIntensityWoman2021(birthDate);
         // Act
         var action = (TestDelegate) (() => intensity.Evaluate(20));
         // Assert

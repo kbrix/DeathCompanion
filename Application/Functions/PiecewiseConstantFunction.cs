@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Globalization;
+using System.Numerics;
 
 [assembly: CLSCompliant(true)]
 
@@ -9,7 +10,7 @@ namespace Functions;
 ///     zero with a step-size of one.
 /// </summary>
 /// <typeparam name="T">The number type of the values.</typeparam>
-public class PiecewiseConstantFunction<T> where T : IFloatingPoint<T>
+public class PiecewiseConstantFunction<T> : IFunction<T> where T : IFloatingPoint<T>
 {
     /// <summary>
     ///     Initializes a new instance of <see cref="PiecewiseConstantFunction{T}" />.
@@ -17,7 +18,7 @@ public class PiecewiseConstantFunction<T> where T : IFloatingPoint<T>
     /// <param name="values">The values defining the function.</param>
     public PiecewiseConstantFunction(T[] values)
     {
-        Values = values;
+        Values = values ?? throw new ArgumentNullException(nameof(values));
         Indices = Enumerable.Range(0, values.Length).ToArray();
     }
 
@@ -30,37 +31,17 @@ public class PiecewiseConstantFunction<T> where T : IFloatingPoint<T>
 
     private int IndexMax => Indices.Length - 1;
 
-    /// <summary>
-    ///     Validates input before evaluation, throws
-    /// </summary>
-    /// <param name="x"></param>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
-    protected virtual void ValidateInput(T x)
-    {
-        if (x < T.Zero || x > T.CreateChecked(IndexMax))
-            throw new ArgumentOutOfRangeException(
-                nameof(x), $"The value '{x}' should belong to the closed interval [0, {IndexMax}].");
-    }
-
-    /// <summary>
-    ///     Evaluates the function.
-    /// </summary>
-    /// <param name="x">The value to evaluate the function in.</param>
-    /// <returns>The evaluated value.</returns>
+    /// <inheritdoc />
     public virtual T Evaluate(T x)
     {
         ValidateInput(x);
 
-        var index = Convert.ToInt32(T.Floor(x));
+        var index = Convert.ToInt32(T.Floor(x), CultureInfo.InvariantCulture);
         return Values[index];
     }
 
-    /// <summary>
-    ///     Integrates the function over a closed interval.
-    /// </summary>
-    /// <param name="a">The lower limit of the integral.</param>
-    /// <param name="b">The upper limit of the integral.</param>
-    /// <returns>The integral value.</returns>
+
+    /// <inheritdoc />
     public virtual T Integrate(T a, T b)
     {
         ValidateInput(a);
@@ -83,10 +64,22 @@ public class PiecewiseConstantFunction<T> where T : IFloatingPoint<T>
 
         var innerPoints = T.Zero;
 
-        for (T x = aStar; x < bStar; x++)
+        for (var x = aStar; x < bStar; x++)
             innerPoints += Evaluate(x);
 
         return leftEndPoint + innerPoints + rightEndPoint;
+    }
+
+    /// <summary>
+    ///     Validates input before evaluation, throws
+    /// </summary>
+    /// <param name="x"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    protected virtual void ValidateInput(T x)
+    {
+        if (x < T.Zero || x > T.CreateChecked(IndexMax))
+            throw new ArgumentOutOfRangeException(
+                nameof(x), $"The value '{x}' should belong to the closed interval [0, {IndexMax}].");
     }
 
     /// <inheritdoc cref="Evaluate" />

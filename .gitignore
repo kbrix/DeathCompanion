@@ -3,3 +3,4 @@
 obj/
 bin/
 MathLibrary/MathLibrary.sln.DotSettings.user
+*.user
